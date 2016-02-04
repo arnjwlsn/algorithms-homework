@@ -1,8 +1,15 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <fstream>
+#include <vector>
+#include <string>
 
 const int MAX_RAND_VALUE = 100000;
+const int INCREMENT_SIZE = 5000;
+const int TRIALS_PER_TEST = 10;
+const std::string TIME_UNIT = "1*10^-6s";
+const int DIVIDE_TIME = 1000000;
 int _size = 5000;
 
 // Fill the array with random values that range from 0 - 100,000
@@ -63,6 +70,14 @@ int linear_search(int *list, int key) {
    return -1;
 }
 
+double average(std::vector<double> vec) {
+   double average = 0;
+   for(std::vector<double>::iterator it = vec.begin(); it != vec.end(); ++it) {
+      average += *it;
+   }
+   return average/(double)vec.size();
+}
+
 std::ostream& operator<<(std::ostream& out, const int *list) {
    for(int i = 0; i < _size; ++i) {
       out << list[i] << std::endl;   
@@ -70,45 +85,79 @@ std::ostream& operator<<(std::ostream& out, const int *list) {
    return out;
 }
 
+double clock_time(clock_t start, clock_t end) {
+   double per_micros = (CLOCKS_PER_SEC/DIVIDE_TIME);
+   return ((double)end - (double)start) / per_micros;
+}
+
 void display(int key, int location, clock_t start, clock_t end) {
    std::cout << "Key: " << key << std::endl;
    std::cout << "Location: " << location << std::endl;
-
-   float per_ms = (CLOCKS_PER_SEC/1000);
-   float run_time = ((float)end - (float)start) / per_ms;
-   std::cout << "Time: " << run_time << " ms" << std::endl;
+   std::cout << "Time: " << clock_time(start, end) << " " << TIME_UNIT  << std::endl;
 }
 
 int main() {
-   int list[_size];
    clock_t start, end;
-   int key = 0, location = 0;
-
+   int key = 0, location = 0, counter = 0;
+   std::vector<double> tern, bin, lin;
    srand(time(NULL));
-
-   fill_array(list);
-   sort_array(list);
-   //std::cout << list;
    
-   key = rand() % (MAX_RAND_VALUE + 1);
+   std::ofstream myfile;
+   myfile.open("results.csv");
+   myfile << "No. of Element in Array,"
+          << "Ternary Search Time (" << TIME_UNIT << ")," 
+          << "Binary Search Time (" << TIME_UNIT << ")" 
+          << std::endl;
 
-   std::cout << "-----------------------------\nTERNARY SEARCH: " << std::endl;
-   start = clock();
-   location = ternary_search(list, key);
-   end = clock();
-   display(key, location, start, end);
+   while(_size <= 100000) {
+      int list[_size];
+      
+      fill_array(list);
+      sort_array(list);
+      myfile << _size << ",";
 
-   std::cout << "-----------------------------\nBINARY SEARCH:" << std::endl; 
-   start = clock();
-   location = binary_search(list, key);
-   end = clock();
-   display(key, location, start, end);
-
-   std::cout << "-----------------------------\nLINEAR SEARCH:" << std::endl; 
-   start = clock();
-   location = linear_search(list, key);
-   end = clock();
-   display(key, location, start, end);
+      std::cout << _size << "..." << std::endl;
    
+      while(counter < TRIALS_PER_TEST) {
+         key = rand() % (MAX_RAND_VALUE + 1);
+
+         // Ternary Search
+         start = clock();
+         location = ternary_search(list, key);
+         end = clock();
+         tern.push_back(clock_time(start, end));
+
+         // Binary Search
+         start = clock();
+         location = binary_search(list, key);
+         end = clock();
+         bin.push_back(clock_time(start, end));
+
+         /*/ Linear Search
+         start = clock();
+         location = linear_search(list, key);
+         end = clock();
+         lin.push_back(clock_time(start, end));*/
+
+         //increment the counter
+         counter++;
+      }
+      
+      myfile << average(tern) << ","
+             << average(bin) <<  std::endl;
+
+      //clear vectors
+      tern.clear();
+      bin.clear();
+      //lin.clear();
+
+      //reset counter
+      counter = 0;
+
+      //increment the array size
+      _size += INCREMENT_SIZE;
+   }   
+
+   myfile.close();
    return 0;
 }
