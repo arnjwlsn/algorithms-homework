@@ -24,8 +24,6 @@ int main(int argc, char* argv[]) {
    std::string input = argv[1];
    read_file(cities, distances, input);
 
-   //display(distances);
-
    int current_trip;                                     // Temp holder of current distance for permutation
    int shortest_trip = std::numeric_limits<int>::max();  // Contains the shortest distance so far
    std::vector<int> trip;                                // Contains the city permutation order for shortest trip
@@ -41,7 +39,6 @@ int main(int argc, char* argv[]) {
 
       if(current_trip < shortest_trip) {
          shortest_trip = current_trip;
-         //trip.clear();
          trip = cities;
       }
 
@@ -58,6 +55,7 @@ int main(int argc, char* argv[]) {
    return 0;
 }
 
+// For debugging - prints all elements in matrix distances
 void display(std::vector< std::vector<int> >& vec) {
    for(int i = 0; i < vec.size(); ++i) {
       for(int j = 0; j < vec.size(); ++j) {
