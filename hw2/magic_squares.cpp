@@ -25,7 +25,9 @@ int main() {
    }
 
    std::cout << "Magic Sum: " << magic_sum << std::endl;
-
+   
+   std::vector<double> list_of_times;
+   int count = 0; 
    start = clock();
    do {
       int rows[width] = {0};
@@ -50,21 +52,30 @@ int main() {
       if(diagonal_pos == magic_sum) ++check_sums;
       if(diagonal_neg == magic_sum) ++check_sums;
 
+      // PRINT OUT MATRICIES AS THEY ARE FOUND
       if(check_sums == (width*2) + 2) {
          std::cout << "----------" << std::endl;
          for(size_t i = 0; i < width; ++i) {
-            for(size_t j = 0; j < width; ++j) {
+           for(size_t j = 0; j < width; ++j) {
                printf("%3d", vec[(width*i) + j]);
             }
             printf("\n");
          }
-         printf("\n");
       }
 
    } while(std::next_permutation(vec.begin(), vec.end()));
    end = clock();
+    
+   list_of_times.push_back(clock_time(start,end));
+   ++count;
+      
+   double avg = 0;
+   for(int i = 0; i < list_of_times.size(); ++i) {
+      avg += list_of_times[i];
+   }
+   avg = avg/list_of_times.size();
 
-   std::cout << "Time Taken: " << clock_time(start, end) << " " << TIME_UNIT << std::endl;
+   std::cout << "Time Taken: " << avg << " " << TIME_UNIT << std::endl;
 
    return 0;
 }

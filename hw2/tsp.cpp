@@ -21,6 +21,10 @@ int main(int argc, char* argv[]) {
    std::vector< std::vector<int> > distances;
 
    // Read input file distances
+   if(argc != 2) {
+      std::cerr << "ERROR: invalid number of arguments: (1) input file" << std::endl;
+      exit(0);
+   }
    std::string input = argv[1];
    read_file(cities, distances, input);
 
@@ -45,12 +49,24 @@ int main(int argc, char* argv[]) {
    } while(std::next_permutation(cities.begin(), cities.end()));
    end = clock();
 
-   // Final Print
-   std::cout << "Shortest Trip: " << shortest_trip << " units" << std::endl;
-   std::cout << "Order of Cities: ";
-   for(int i = 0; i < trip.size(); ++i) std::cout << trip[i] << " ";
-   std::cout << std::endl;
-   std::cout << "Time Taken: " << clock_time(start, end) << " " << TIME_UNIT << std::endl;
+   // Write to file
+   std::ofstream file;
+   file.open(input.c_str());
+   file << cities.size() << std::endl;
+   
+   for(int i = 0; i < distances.size(); ++i) {
+      for(int j = 0; j < distances.size(); ++j) {
+         file << distances[i][j] << " ";
+      }
+      file << std::endl;
+   }
+
+   file << std::endl;
+   file << "Shortest Trip: " << shortest_trip << " units" << std::endl;
+   file << "Order of Cities: ";
+   for(int i = 0; i < trip.size(); ++i) file << trip[i] << " ";
+   file << std::endl;
+   file << "Time Taken: " << clock_time(start, end) << " " << TIME_UNIT << std::endl;
 
    return 0;
 }
