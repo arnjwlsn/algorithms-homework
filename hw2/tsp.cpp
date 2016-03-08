@@ -41,6 +41,9 @@ int main(int argc, char* argv[]) {
          current_trip += distances[cities[i]-1][cities[i+1]-1];
       }
 
+      // Add the last city back to the start city
+      current_trip += distances[cities[cities.size()-1]-1][cities[0]-1];
+
       if(current_trip < shortest_trip) {
          shortest_trip = current_trip;
          trip = cities;
