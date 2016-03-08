@@ -1,3 +1,17 @@
+/* Aaron Wilson
+ * Dr. Kalita
+ * CS4720 - Design and Analys of Algorithms
+ * March 9, 2016
+ *
+ *
+ * Problem 2: Traveling Salesman Problem
+ *
+ * How to Run: 
+ *    Program takes a single input argument:
+ *       g++ tsp.cpp -o tsp
+ *       ./tsp <input file>
+ */
+
 #include <vector>
 #include <time.h>
 #include <iostream>

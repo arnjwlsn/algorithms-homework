@@ -1,3 +1,16 @@
+/* Aaron Wilson
+ * Dr. Kalita
+ * CS4720 - Design and Analys of Algorithms
+ * March 9, 2016
+ *
+ *
+ * Program 1: Magic Squares
+ *
+ * How to Run:
+ *    g++ magic_squares.cpp -o ms
+ *    ./ms
+ */
+
 #include <iostream>
 #include <algorithm>
 #include <vector>
