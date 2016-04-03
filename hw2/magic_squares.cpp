@@ -28,7 +28,7 @@ int main() {
 
    srand(time(NULL));
 
-   const size_t width = 3;
+   const size_t width = 5;
    const size_t size = width*width;
    const size_t magic_sum = width * ((width*width) + 1) / 2;
    
