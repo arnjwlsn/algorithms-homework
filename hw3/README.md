@@ -5,10 +5,12 @@ Given an unsorted list of n numbers, find the kth smallest element.
 
 ### Usage
 Compile with:
-`g++ selection.cpp -o selection`
+`g++ selection.cpp -o selection -std=c++11`
 
 Then run without parameters:
 `./selection`
+
+The program generates a .csv file will the time taken for given values of n.
 
 ## 2. Counting Inversion Problem
 Given a sequence of numbers, count the number of inversions that would have to take place in order to make the sequence ascending.
