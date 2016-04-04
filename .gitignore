@@ -1,3 +1,4 @@
 # Do not include
 *.out
 *.inp
+*.csv
