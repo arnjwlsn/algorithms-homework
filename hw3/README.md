@@ -4,11 +4,9 @@
 Given an unsorted list of n numbers, find the kth smallest element.
 
 ### Usage
-Compile with: 
-`g++ selection.cpp -o selection -std=c++11`
+Compile with: `g++ selection.cpp -o selection -std=c++11`
 
-Then run without parameters: 
-`./selection`
+Then run with: `./selection`
 
 The program generates a .csv file will the time taken for given values of n.
 
@@ -16,11 +14,9 @@ The program generates a .csv file will the time taken for given values of n.
 Given a sequence of numbers, count the number of inversions that would have to take place in order to make the sequence ascending.
 
 ### Usage
-Compile with:  
-`g++ -o inversions -std=c++11 main.cc`  
+Compile with: `g++ counting_inversions.cc -o inversions -std=c++11`  
   
-Then run with 3 parameters:  
-`./inversions 100 0 0`  
+Then run with 3 parameters: `./inversions 100 0`  
 
 The first parameter is the size of the vector you want to generate.  
 The second paramater (0/1) will determine if you use brute force or divide and conquer.  
@@ -29,10 +25,8 @@ The second paramater (0/1) will determine if you use brute force or divide and c
 Given an a group of points on a 2-D plain, find the convex hull using a divide and conquer algorithm.
 
 ### Usage
-Compile with:
-`g++ convex_hull.cpp -o hull -std=c++11`
+Compile with: `g++ convex_hull.cpp -o hull -std=c++11`
 
-Then run without parameters:
-`./hull`
+Then run with: `./hull`
 
 The program generates a .csv file hull.csv and points.csv where the hull file contains only the points from a set of points in the points file that make up the convex hull.
