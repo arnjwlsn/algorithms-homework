@@ -5,7 +5,6 @@
  * Email: awilson8@uccs.edu
  *
  * Problem 1: Small Statistic Problem or the Selection Problem
- *
  */
 
 #include <iostream>

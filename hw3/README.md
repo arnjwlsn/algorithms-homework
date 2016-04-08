@@ -24,4 +24,15 @@ Then run with 3 parameters:
 
 The first parameter is the size of the vector you want to generate.  
 The second paramater (0/1) will determine if you use brute force or divide and conquer.  
-The third parameter (0/1) will determine if you get verbose console output or not.  
+
+## 3. Convex Hull
+Given an a group of points on a 2-D plain, find the convex hull using a divide and conquer algorithm.
+
+### Usage
+Compile with:
+`g++ convex_hull.cpp -o hull -std=c++11`
+
+Then run without parameters:
+`./hull`
+
+The program generates a .csv file hull.csv and points.csv where the hull file contains only the points from a set of points in the points file that make up the convex hull.

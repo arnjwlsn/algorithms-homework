@@ -1,9 +1,23 @@
+/* Aaron Wilson
+ * Dr. Kalita
+ * CS 4720 - Design and Analys of Algorithms
+ * April 11, 2015
+ * Email: awilson8@uccs.edu
+ *
+ * Problem 3: Convex Hull
+ */
+
 #include <chrono>
 #include <cstdio>
 #include <random>
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
+#include <time.h>
+
+const int DIVIDE_TIME = 1000;
+const std::string TIME_UNIT = " ms";
 
 struct Point {
   float x;
@@ -22,6 +36,7 @@ float distance_from_line(const Point &point1, const Point &point2, const Point &
 bool point_in_triangle(const Point &p, const Point &point1, const Point &point2, const Point &point3);
 void find_hull(const std::vector<Point> &Sk, const Point P, const Point Q, std::vector<Point> &hull_points);
 void quick_hull(const std::vector<Point> &s, std::vector<Point> &hull_points);
+double clock_time(clock_t, clock_t);
 
 int main() {
   const size_t number_of_points = 100;
@@ -40,8 +55,15 @@ int main() {
     points.push_back(pt);
   }
 
+  // Find the time take for algorithm
+  srand(time(NULL));
+  clock_t start, end;
+
   std::sort(points.begin(), points.end());
+
+  start = clock();
   quick_hull(points, hull_points);
+  end = clock();
 
   // Save all points to a file
   {
@@ -60,6 +82,9 @@ int main() {
     }
     fclose(fp);
   }
+
+  std::cout << "Time Taken(" << number_of_points << "): " << clock_time(start,end) << TIME_UNIT << std::endl;
+  return 0;
 }
 
 int side_of_line(const Point &point1, const Point &point2, const Point &point3) {
@@ -135,4 +160,9 @@ void quick_hull(const std::vector<Point> &s, std::vector<Point> &hull_points) {
 
   find_hull(S1, A, B, hull_points);
   find_hull(S2, B, A, hull_points);
+}
+
+double clock_time(clock_t start, clock_t end) {
+ double per_sec = (CLOCKS_PER_SEC/DIVIDE_TIME);
+   return ((double)end - (double)start) / per_sec;
 }

@@ -1,3 +1,12 @@
+/* Aaron Wilson
+ * Dr. Kalita
+ * CS4720 - Design and Analys of Algorithms
+ * April 11, 2015
+ * Email: awilson8@uccs.edu
+ *
+ * Problem 2: Counting Inversion Problem
+ */
+
 #include <algorithm>
 #include <chrono>
 #include <cstdio>
