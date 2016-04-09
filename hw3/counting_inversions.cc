@@ -29,7 +29,41 @@ uint32_t merge_sort_r(const std::vector<uint32_t> &data, const uint32_t left, co
 uint32_t find_recursive_inversion_count(const std::vector<uint32_t> &data);
 double clock_time(clock_t start, clock_t end);
 
-int main() {
+int main(int argc, char* argv[]) {
+   int do_single_run;
+   
+   if(argc == 2) do_single_run = atoi(argv[1]);
+   else if(argc == 1) do_single_run = 0;
+   else {
+      std::cout << "Invalid number of parameters." << std::endl;
+      return -1;
+   }
+
+   if(do_single_run == 1) {
+      array_size = 4;
+      std::vector<uint32_t> data;
+      data.reserve(array_size);
+
+      std::mt19937 mersenne_twister;
+      std::uniform_int_distribution<size_t> distribution(0, (uint32_t)-1);
+      for (size_t i = 0; i < array_size; ++i) {
+         data.push_back(i);
+      }
+
+      std::random_shuffle(data.begin(), data.end());
+
+      uint32_t inversions = find_recursive_inversion_count(data);
+     
+      std::cout << "List: ";
+      for(int i = 0; i < data.size(); ++i) 
+         std::cout << data[i] << "  ";
+      std::cout << std::endl;
+
+      std::cout << "Inversions: " << inversions << std::endl;
+
+      return 0;
+   }
+
    std::ofstream my_file;
    my_file.open("counting_inversions_results.csv");
    my_file << "No. of Elements, Time (" << TIME_UNIT << "), No. of Inversions" << std::endl;

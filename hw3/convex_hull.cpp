@@ -43,15 +43,17 @@ void quick_hull(const std::vector<Point> &s, std::vector<Point> &hull_points);
 double clock_time(clock_t, clock_t);
 
 int main(int argc, char* argv[]) {
-   if(argc != 2) {
+   int do_single_run;
+
+   if(argc == 2) do_single_run = atoi(argv[1]);
+   else if(argc == 1) do_single_run = 0;
+   else {
       std::cout << "Invalid number of args." << std::endl;
       return -1;
    }
    
-   int do_single_run = atoi(argv[1]);
-   
    if(do_single_run == 1) { 
-      number_of_points = 100;
+      number_of_points = 10;
 
       std::vector<Point> points;
       points.reserve(number_of_points);

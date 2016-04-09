@@ -16,9 +16,9 @@ Given a sequence of numbers, count the number of inversions that would have to t
 ### Usage
 Compile with: `g++ counting_inversions.cc -o inversions -std=c++11`  
   
-Then run with: `./inversions`  
+Then run with 1 OPTIONAL paramteter: `./inversions 0`  
 
-The program will generate a .csv file that contains the information for the time taken given array sizes n.  
+If the parameter is not given or is 0, the program will generate a .csv file that contains the information for the time taken given array sizes n. If the parameter is 1, then the program will do a short single run with a array list of size 4 and output the array as well as the number of inversions.
 
 ## 3. Convex Hull
 Given an a group of points on a 2-D plain, find the convex hull using a divide and conquer algorithm.
@@ -26,6 +26,6 @@ Given an a group of points on a 2-D plain, find the convex hull using a divide a
 ### Usage
 Compile with: `g++ convex_hull.cpp -o hull -std=c++11`
 
-Then run with 1 parameter: `./hull 0`
+Then run with 1 OPTIONAL parameter: `./hull 0`
 
-The single parameter will determine (0) if you want to get the time taken for increasing point array sizes from 5,000 - 100,000 with increments of 5,000 or (1) if you want to run the program once for a point array of size 10. The (0) option will generate a .csv file for the increasing values of n and the time taken for each value n. The (1) option generates two .csv files: hull.csv and points.csv where the hull file contains only the points from a set of points in the points file that make up the convex hull.
+If the parameter is not given or is 0, the program will get the time taken for increasing point array sizes from 5,000 - 100,000 with increments of 5,000. If a 1 is given, then the program will do a sinlge run with a point array of size 10. The 0 or not given option will generate a .csv file for the increasing values of n and the time taken for each value n. The 1 option generates two .csv files: hull.csv and points.csv where the hull file contains only the points from a set of points in the points file that make up the convex hull and outputs the time taken.
