@@ -24,42 +24,10 @@ const int INCREMENT = 5000;
 const int INITIAL_SIZE = 5000;
 int array_size = INITIAL_SIZE;
 
-uint32_t merge(const std::vector<uint32_t> &data, const uint32_t left, const uint32_t middle, const uint32_t right) {
-   int i = left;
-   int j = middle;
-   int k = left;
-   int inversions = 0;
-
-   while ((i < middle) && (j <= right)) {
-      if (data[i] <= data[j]) 
-         ++i; 
-      else {
-         ++j;
-         inversions += middle - i;
-      }
-      ++k;
-   }
-   return inversions;
-}
-
-uint32_t merge_sort_r(const std::vector<uint32_t> &data, const uint32_t left, const uint32_t right) {
-   if (left >= right) return 0;
-
-   // Integer division truncates the decimal
-   int middle = (right + left) / 2;
-
-   // Return the sum of inversions in the left array and right array
-   return merge_sort_r(data, left, middle) + merge_sort_r(data, middle + 1, right) + merge(data, left, middle + 1, right);
-}
-
-uint32_t find_recursive_inversion_count(const std::vector<uint32_t> &data) {
-    return merge_sort_r(data, 0, data.size() - 1);
-}
-
-double clock_time(clock_t start, clock_t end) {
-   double per_sec = (CLOCKS_PER_SEC/DIVIDE_TIME);
-      return ((double)end - (double)start) / per_sec;
-}
+uint32_t merge(const std::vector<uint32_t> &data, const uint32_t left, const uint32_t middle, const uint32_t right);
+uint32_t merge_sort_r(const std::vector<uint32_t> &data, const uint32_t left, const uint32_t right);
+uint32_t find_recursive_inversion_count(const std::vector<uint32_t> &data);
+double clock_time(clock_t start, clock_t end);
 
 int main() {
    std::ofstream my_file;
@@ -98,4 +66,41 @@ int main() {
    
    my_file.close();   
    return 0;
+}
+
+uint32_t merge(const std::vector<uint32_t> &data, const uint32_t left, const uint32_t middle, const uint32_t right) {
+   int i = left;
+   int j = middle;
+   int k = left;
+   int inversions = 0;
+
+   while ((i < middle) && (j <= right)) {
+      if (data[i] <= data[j]) 
+         ++i; 
+      else {
+         ++j;
+         inversions += middle - i;
+      }
+      ++k;
+   }
+   return inversions;
+}
+
+uint32_t merge_sort_r(const std::vector<uint32_t> &data, const uint32_t left, const uint32_t right) {
+   if (left >= right) return 0;
+
+   // Integer division truncates the decimal
+   int middle = (right + left) / 2;
+
+   // Return the sum of inversions in the left array and right array
+   return merge_sort_r(data, left, middle) + merge_sort_r(data, middle + 1, right) + merge(data, left, middle + 1, right);
+}
+
+uint32_t find_recursive_inversion_count(const std::vector<uint32_t> &data) {
+    return merge_sort_r(data, 0, data.size() - 1);
+}
+
+double clock_time(clock_t start, clock_t end) {
+   double per_sec = (CLOCKS_PER_SEC/DIVIDE_TIME);
+      return ((double)end - (double)start) / per_sec;
 }
