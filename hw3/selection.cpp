@@ -13,6 +13,7 @@
 #include <fstream>
 #include <algorithm>
 
+const int TRIALS_PER_SIZE = 32;
 const int MAX_RAND_VALUE = 1000000;
 const int FINAL_SIZE = 100000;
 const int INCREMENT = 5000;
@@ -27,6 +28,7 @@ int kth_smallest_element(std::vector<int>, int, int, int);
 double clock_time(clock_t, clock_t);
 void fill_array(std::vector<int>&);
 int find_k(int);
+double average(std::vector<double>);
 
 int main() {
    int k;
@@ -38,24 +40,33 @@ int main() {
    clock_t start, end;
 
    std::cout << "Generating:" << std::endl;
-
+   
    while(array_size <= FINAL_SIZE) {
-      std::vector<int> list;
-      list.reserve(array_size);
-      fill_array(list);
-      k = find_k(array_size);
+      std::cout << "  " << array_size << std::endl;
       
-      std::cout << array_size << "..." << std::endl;
+      int counter = 0;
+      std::vector<double> avg;
 
-      int value = 0;
-      start = clock();
-      value = kth_smallest_element(list, 0, array_size-1, k);
-      end = clock();
+      while(counter < TRIALS_PER_SIZE) {
+         std::vector<int> list;
+         list.reserve(array_size);
+         fill_array(list);
+         k = find_k(array_size);
 
-      my_file << array_size << "," << clock_time(start, end) << std::endl;
+         int value = 0;
+         start = clock();
+         value = kth_smallest_element(list, 0, array_size-1, k);
+         end = clock();
+
+         avg.push_back(clock_time(start, end));
+         ++counter;
+      }
+
+      my_file << array_size << "," << average(avg) << std::endl;
       array_size += INCREMENT;
    }
 
+   my_file.close();
    return 0;
 }
 
@@ -109,4 +120,12 @@ void fill_array(std::vector<int> &list) {
 
 int find_k(int size) {
    return rand() % size;
+}
+
+double average(std::vector<double> avg) {
+   double sum = 0;
+   for(int i = 0; i < avg.size(); ++i) {
+      sum += avg[i];
+   }
+   return (sum/avg.size());
 }
