@@ -14,7 +14,7 @@ struct Node {
   Node *parent;
   std::vector<Edge *> edges;
 
-  Node() { }
+  Node() {}
 
   Node(Node *&node) : id(node->id), distance(node->distance), visited(node->visited) {
     parent = node->parent;
@@ -98,16 +98,16 @@ void dijkstra_search(Node *source, Node *destination) {
     // Note: most compilers fix this anyways and don't give a shit
 
     // Grab all edges that current is connected to
-    std::cout << "There are " << current->edges.size() << " current->edges.size()" << std::endl;
+    //std::cout << "There are " << current->edges.size() << " current->edges.size()" << std::endl;
     for (size_t i = 0; i < current->edges.size(); ++i) {
       Edge *current_edge = current->edges[i];
       Node *next = new Node(current_edge->destination);
       if (!next->visited) {
         next->parent = current;
         next->distance = current->distance + current_edge->distance;//+= current_edge->distance; next->parent = current;
-        std::cout << "We need to travel " << current_edge->distance << " to get to " << next->id << std::endl;
-        std::cout << "We've traveled " << current->distance << " so far" << std::endl;
-        std::cout << "Adding node " << next->id << " is " << next->distance << " total" << std::endl;
+        //std::cout << "We need to travel " << current_edge->distance << " to get to " << next->id << std::endl;
+        //std::cout << "We've traveled " << current->distance << " so far" << std::endl;
+        //std::cout << "Adding node " << next->id << " is " << next->distance << " total" << std::endl;
         to_visit.push(next);
       }
     }
@@ -166,9 +166,8 @@ int main() {
   }
   */
 
-  std::cin.ignore();  
   int start = 0, finish = 0;
-  std::cout << "This country contains cities labeled 0-" << (size-1) << std::endl;
+  std::cout << "This country contains " << size << " cities labeled 0-" << (size-1) << std::endl;
   do {
     std::cout << "Starting Node: ";
     std::cin >> start;
@@ -176,7 +175,7 @@ int main() {
     std::cin >> finish;
     std::cout << std::endl;
   } while(start <= 0 && start > size && finish <= 0 && finish > size); 
-  std::cout << "***********" << std::endl;
+  std::cout << "-------------------" << std::endl;
 
   dijkstra_search(nodes[start], nodes[finish]);
 
