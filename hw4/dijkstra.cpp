@@ -1,14 +1,14 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include <algorithm>
 
 // signatures
 struct Node;
 struct Edge;
 
 struct Node {
-  // TODO(aaron): turn this back into an int?
-  char id;
+  int id;
   int distance;
   bool visited;
   Node *parent;
@@ -18,11 +18,7 @@ struct Node {
 
   Node(Node *&node) : id(node->id), distance(node->distance), visited(node->visited) {
     parent = node->parent;
-    //std::cout << "Copying from " << node <<  " (" << node->edges.size() << ") to " << this << std::endl;
-    //std::cout << "Before copy has " << edges.size() << " edges" << std::endl;
     edges = node->edges;
-    //std::cout << "After copy has " << edges.size() << " edges" << std::endl;
-    //std::cout << std::endl;
   }
 };
 
@@ -41,10 +37,10 @@ struct Edge {
 void print_pqueue(const std::priority_queue<Node *, std::vector<Node *>, Compare> &pqueue) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> copy(pqueue);
   while (copy.size() > 0) {
-    std::cout << "(" << copy.top() << ": " << copy.top()->id << " - " << copy.top()->distance << ") ";
+    //std::cout << "(" << copy.top() << ": " << copy.top()->id << " - " << copy.top()->distance << ") ";
     copy.pop();
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 }
 
 void dijkstra_search(Node *source, Node *destination) {
@@ -67,18 +63,31 @@ void dijkstra_search(Node *source, Node *destination) {
     to_visit.pop();
     current->visited = true;
 
-    std::cout << "At node " << current->id << std::endl;
+    //std::cout << "At node " << current->id << std::endl;
 
     if (current->id == destination->id) {
-      std::cout << "Found node " << destination->id << std::endl;
-      std::cout << current->distance << std::endl;
+      std::cout << "From Node (" << source->id << ") to Node (" <<  destination->id << ")" << std::endl;
+      std::cout << "  Cost: " << current->distance << std::endl;
 
+      std::vector<int> print;
       Node *backtrace = current;
       while (backtrace->id != source->id) {
-        std::cout << backtrace->id << std::endl;
+        //std::cout << backtrace->id << std::endl;
+        print.push_back(backtrace->id);
         backtrace = backtrace->parent;
       }
-      std::cout << source->id << std::endl;
+      //std::cout << source->id << std::endl;
+      print.push_back(source->id);
+
+      // Reverse path to show start -> finish
+      std::reverse(print.begin(), print.end());
+
+      std::cout << "  Path: ";
+      for(int i = 0; i < print.size()-1; ++i) {
+        std::cout << "(" << print[i] << ")->"; 
+      }
+      std::cout << "(" << print[print.size()-1] << ")" << std::endl;
+
       return;
     }
 
@@ -115,7 +124,7 @@ int main() {
   // created all nodes
   for (size_t i = 0; i < size; ++i) {
     Node *new_node = new Node();
-    new_node->id = 'a' + i;
+    new_node->id = i;
     new_node->distance = 0;
     new_node->visited = false;
     new_node->parent = NULL;
@@ -129,27 +138,18 @@ int main() {
       int cost;
       std::cin >> cost;
       if (cost > 0) {
-
         Node *source_copy(nodes[i]);
         Node *destination_copy(nodes[j]);
         Edge *new_edge = new Edge();
 
-
         // edges get added here
         nodes[i]->edges.push_back(new_edge);
-
 
         new_edge->distance = cost;
 
         // This doesn't have edges yet
         new_edge->source = source_copy;
         new_edge->destination = destination_copy;
-
-        
-//        std::cout << "NODE[i]: " << nodes[i] << std::endl;
-//        std::cout << "NODE[j]: " << nodes[j] << std::endl;
-//        std::cout << "Source: " << source_copy << std::endl;
-//        std::cout << "Dest: " << destination_copy << std::endl;
       }
     }
   }
@@ -166,7 +166,19 @@ int main() {
   }
   */
 
-  dijkstra_search(nodes[0], nodes[5]);
+  std::cin.ignore();  
+  int start = 0, finish = 0;
+  std::cout << "This country contains cities labeled 0-" << (size-1) << std::endl;
+  do {
+    std::cout << "Starting Node: ";
+    std::cin >> start;
+    std::cout << "\nFinishing Node: ";
+    std::cin >> finish;
+    std::cout << std::endl;
+  } while(start <= 0 && start > size && finish <= 0 && finish > size); 
+  std::cout << "***********" << std::endl;
+
+  dijkstra_search(nodes[start], nodes[finish]);
 
   return 0;
 }
