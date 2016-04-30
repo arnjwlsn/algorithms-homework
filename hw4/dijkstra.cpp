@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <fstream>
 
+int size;
+
 // signatures
 struct Node;
 struct Edge;
@@ -38,13 +40,13 @@ struct Edge {
 void print_pqueue(const std::priority_queue<Node *, std::vector<Node *>, Compare> &pqueue) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> copy(pqueue);
   while (copy.size() > 0) {
-    //std::cout << "(" << copy.top() << ": " << copy.top()->id << " - " << copy.top()->distance << ") ";
+    std::cout << "(" << copy.top() << ": " << copy.top()->id << " - " << copy.top()->distance << ") ";
     copy.pop();
   }
-  //std::cout << std::endl;
+  std::cout << std::endl;
 }
 
-void dijkstra_search(Node *source, Node *destination) {
+bool dijkstra_search(Node *source, Node *destination) {
   // Creating a priority queue is O(nlogn) because each insert is O(logn) and
   // you are inserting n things.
   // Taking something from the top of the pqueue is O(1)
@@ -53,8 +55,8 @@ void dijkstra_search(Node *source, Node *destination) {
 
   int step = 0;
 
-  while (step < 10 && to_visit.size() > 0) {
-    print_pqueue(to_visit);
+  while (step < size*size && to_visit.size() > 0) {
+    //print_pqueue(to_visit);
     ++step;
     // std::cout << "Current step: " << step++ << std::endl;
 
@@ -89,7 +91,7 @@ void dijkstra_search(Node *source, Node *destination) {
       }
       std::cout << "(" << print[print.size()-1] << ")" << std::endl;
 
-      return;
+      return true;
     }
 
     // Pre-increment does NOT make a copy of the variable
@@ -113,15 +115,16 @@ void dijkstra_search(Node *source, Node *destination) {
       }
     }
   }
+  // No path was found
+  return false;
 }
 
 int main() {
-  int size;
   std::ifstream myfile;
   myfile.open("input.inp");
   
   myfile >> size;
-
+  
   std::vector<Node *> nodes;
   nodes.reserve(size);
 
@@ -177,10 +180,11 @@ int main() {
     std::cin >> start;
     std::cout << "Finishing Node: ";
     std::cin >> finish;
-  } while(start <= 0 && start > size && finish <= 0 && finish > size); 
+  } while(start < 0 || start >= size || finish < 0 || finish >= size); 
   std::cout << "-------------------" << std::endl;
 
-  dijkstra_search(nodes[start], nodes[finish]);
+  bool found = dijkstra_search(nodes[start], nodes[finish]);
+  if(!found) std::cout << "No path found from Node (" << start << ") to Node (" << finish << ")" << std::endl;
 
   return 0;
 }
