@@ -2,6 +2,7 @@
 #include <queue>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 
 // signatures
 struct Node;
@@ -116,7 +117,10 @@ void dijkstra_search(Node *source, Node *destination) {
 
 int main() {
   int size;
-  std::cin >> size;
+  std::ifstream myfile;
+  myfile.open("input.inp");
+  
+  myfile >> size;
 
   std::vector<Node *> nodes;
   nodes.reserve(size);
@@ -136,7 +140,7 @@ int main() {
     // Start connecting to all the nodes its connected to
     for (size_t j = 0; j < size; ++j) {
       int cost;
-      std::cin >> cost;
+      myfile >> cost;
       if (cost > 0) {
         Node *source_copy(nodes[i]);
         Node *destination_copy(nodes[j]);
@@ -171,9 +175,8 @@ int main() {
   do {
     std::cout << "Starting Node: ";
     std::cin >> start;
-    std::cout << "\nFinishing Node: ";
+    std::cout << "Finishing Node: ";
     std::cin >> finish;
-    std::cout << std::endl;
   } while(start <= 0 && start > size && finish <= 0 && finish > size); 
   std::cout << "-------------------" << std::endl;
 
