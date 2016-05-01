@@ -59,11 +59,11 @@ bool dijkstra_search(Node *source, Node *destination) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> to_visit;
   to_visit.push(source);
 
-  int step = 0;
+  //int step = 0;
 
-  while (step < size*size && to_visit.size() > 0) {
+  while (to_visit.size() > 0) {
     //print_pqueue(to_visit);
-    ++step;
+    //++step;
     // std::cout << "Current step: " << step++ << std::endl;
 
     // Take current from the top of the pqueue

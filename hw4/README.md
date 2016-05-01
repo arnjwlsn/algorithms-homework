@@ -18,8 +18,8 @@ Find the shortest path from i to j given a plain of nodes and edges given to the
 
 #### Usage
 
-Compile with: `g++ dijkstra_search.cpp -o dijkstra -std=c++11`
+Compile with: `g++ dijkstra.cpp -o dijkstra -std=c++11`
 
 Run with no added parameters: `./dijkstra`
 
-Note: converter.py converts data sets from http://www.math.uwaterloo.ca/tsp/world/countries.html to a distance matrix that can be used as an input file for dijkstra_search.cpp.
+Note: converter.py converts data sets from http://www.math.uwaterloo.ca/tsp/world/countries.html to a distance matrix that can be used as an input file for dijkstra.cpp.
