@@ -1,3 +1,9 @@
+# Aaron Wilson
+# Dr. Kalita
+# CS 4720 - Design and Analys of Algorithms
+# May 4, 2016
+# Email: awilson8@uccs.edu
+
 import sys
 import re
 from random import randint
