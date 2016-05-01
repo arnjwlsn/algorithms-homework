@@ -19,7 +19,13 @@ input_file = open(sys.argv[1], 'r')
 content = input_file.readlines()
 
 # Get rid of header information
-for i in xrange(7):
+index = 0
+for line in content:
+  index += 1
+  if line == 'NODE_COORD_SECTION\r\n':
+    break
+
+for i in xrange(index):
 	content.pop(0)
 
 locations = []
