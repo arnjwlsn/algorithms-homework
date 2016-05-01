@@ -47,9 +47,6 @@ void print_pqueue(const std::priority_queue<Node *, std::vector<Node *>, Compare
 }
 
 bool dijkstra_search(Node *source, Node *destination) {
-  // Creating a priority queue is O(nlogn) because each insert is O(logn) and
-  // you are inserting n things.
-  // Taking something from the top of the pqueue is O(1)
   std::priority_queue<Node *, std::vector<Node *>, Compare> to_visit;
   to_visit.push(source);
 
@@ -93,12 +90,6 @@ bool dijkstra_search(Node *source, Node *destination) {
 
       return true;
     }
-
-    // Pre-increment does NOT make a copy of the variable
-    // Post-increment needs to first copy i, then read it from memory,
-    // THen add 1 to the copy, and place the copy back into i
-    // Pre-increment just increments i
-    // Note: most compilers fix this anyways and don't give a shit
 
     // Grab all edges that current is connected to
     //std::cout << "There are " << current->edges.size() << " current->edges.size()" << std::endl;
