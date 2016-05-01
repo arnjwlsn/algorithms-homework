@@ -1,3 +1,12 @@
+/* Aaron Wilson
+ * Dr. Kalita
+ * CS 4720 - Design and Analys of Algorithms
+ * May 4, 2016
+ * Email: awilson8@uccs.edu
+ *
+ * Assignment 4, Problem 2: Dijkstra's Algorithm
+ */
+
 #include <iostream>
 #include <queue>
 #include <vector>
