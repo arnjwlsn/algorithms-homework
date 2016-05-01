@@ -1,5 +1,7 @@
+#include <fstream>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 int make_change(const std::vector<int> &denom, const int &amount, std::vector<int> &coin_count, std::vector<int> &coins_used) {
   for (int i = 0; i < amount + 1; ++i) {
@@ -35,8 +37,28 @@ void print_coins(const std::vector<int> &coins_used, const int &amount) {
 }
 
 int main() {
-  const int amount = 6;
-  std::vector<int> denom = { 1, 3, 4 };
+  std::ifstream myfile;
+  myfile.open("denominations.inp");
+  std::vector<int> denom;
+
+  int new_coin = 0;
+  while(myfile >> new_coin) {
+    denom.push_back(new_coin);
+  }
+
+  std::sort(denom.begin(), denom.end());
+
+  int amount = 0;
+  std::cout << "Denomination:";
+  for(int i = 0; i < denom.size(); ++i)
+    std::cout << " " << denom[i];
+  std::cout << std::endl;
+  
+  do{
+    std::cout << "Make change for: ";
+    std::cin >> amount;
+  } while(amount < 1);
+
   std::vector<int> coin_count;
   std::vector<int> coins_used;
   coin_count.reserve(amount + 1);
