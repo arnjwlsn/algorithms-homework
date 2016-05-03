@@ -14,6 +14,7 @@
 #include <fstream>
 
 int size;
+int finish = 10000000;
 
 // signatures
 struct Node;
@@ -59,11 +60,11 @@ bool dijkstra_search(Node *source, Node *destination) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> to_visit;
   to_visit.push(source);
 
-  //int step = 0;
+  int step = 0;
 
-  while (to_visit.size() > 0) {
+  while(to_visit.size() > 0 || step == finish) {
     //print_pqueue(to_visit);
-    //++step;
+    ++step;
     // std::cout << "Current step: " << step++ << std::endl;
 
     // Take current from the top of the pqueue
@@ -119,7 +120,17 @@ bool dijkstra_search(Node *source, Node *destination) {
   return false;
 }
 
-int main() {
+int main(int argc, char **argv) {
+  int do_simple_run = 0;
+  
+  if(argc > 2) {
+    std::cout << "ERROR: too many args" << std::endl;
+    return -1;
+  }
+  else if(argc == 2) {
+    do_simple_run = atoi(argv[1]); 
+  }
+  
   std::ifstream myfile;
   myfile.open("input.inp");
   
@@ -161,6 +172,15 @@ int main() {
     }
   }
 
+  // Simple run that runs every pair of nodes with the first 3 to the last 3
+  if(do_simple_run == 1) {
+    for(int i = 0; i < 3; ++i) {
+      for(int j = size - 3; j < size; ++j) {
+        dijkstra_search(nodes[i], nodes[j]); 
+      }
+    }
+    return 0;
+  }
   /*
   for (size_t i = 0; i < nodes.size(); ++i) {
     Node *node = nodes[i];

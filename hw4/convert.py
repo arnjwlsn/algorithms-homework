@@ -47,7 +47,7 @@ for line in content:
 		locations.append(loc)
 
 size = len(locations)
-rand_array = [int(round(size/10)), int(round(size/5)), int(round(size/4)), int(round(size/3)), int(round(size/2))]
+rand_array = [size-1, int(round(size/5)), int(round(size/4)), int(round(size/3)), int(round(size/2))]
 distances = [[0 for x in range(size)] for x in range(size)]
 
 # Generate random edges for random vertices
