@@ -28,7 +28,9 @@ content = input_file.readlines()
 index = 0
 for line in content:
   index += 1
-  if line == 'NODE_COORD_SECTION\r\n':
+  line = line.replace('\r','')
+  line = line.replace('\n','')
+  if line == 'NODE_COORD_SECTION':
     break
 
 for i in xrange(index):
