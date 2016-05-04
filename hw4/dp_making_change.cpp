@@ -45,6 +45,17 @@ void print_coins(const std::vector<int> &coins_used, const int &amount) {
   }
 }
 
+void print_list(const std::vector<int>& vec, bool used) {
+  if(used) std::cout << "The used list is as follows:" << std::endl;
+  else std::cout << "The count list is as follows:" << std::endl;
+  
+  std::cout << "[";
+  for (int i = 0; i < vec.size() - 1; ++i) {
+    std::cout << vec[i] << ", ";
+  }
+  std::cout << vec[vec.size() - 1] << "]" << std::endl;
+}
+
 int main() {
   std::ifstream myfile;
   myfile.open("denominations.inp");
@@ -82,12 +93,8 @@ int main() {
   std::cout << " coins" << std::endl;
   std::cout << "They are:" << std::endl;
   print_coins(coins_used, amount);
-  std::cout << "The used list is as follows:" << std::endl;
-  std::cout << "[";
-  for (int i = 0; i < coins_used.size() - 1; ++i) {
-    std::cout << coins_used[i] << ", ";
-  }
-  std::cout << coins_used[coins_used.size() - 1] << "]" << std::endl;
+  print_list(coin_count, false);
+  print_list(coins_used, true);
 
   return 0;
 }

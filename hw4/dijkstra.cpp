@@ -128,6 +128,11 @@ void dijkstra_search(Node *source, Node *destination) {
   return;
 }
 
+void reset(std::vector<Node *>& nodes) {
+  for(size_t i = 0; i < nodes.size(); ++i)
+    nodes[i]->visited = false;
+}
+
 int main(int argc, char **argv) {
   int do_simple_run = 0;
   int size = 0;
@@ -185,7 +190,8 @@ int main(int argc, char **argv) {
   if(do_simple_run == 1 && size > 3) {
     for(int i = 0; i < 3; ++i) {
       for(int j = size - 3; j < size; ++j) {
-        dijkstra_search(nodes[i], nodes[j]); 
+        dijkstra_search(nodes[i], nodes[j]);
+        reset(nodes);
       }
     }
     return 0;
