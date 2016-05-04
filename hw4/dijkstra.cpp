@@ -13,9 +13,6 @@
 #include <algorithm>
 #include <fstream>
 
-int size;
-int finish = 10000000;
-
 // signatures
 struct Node;
 struct Edge;
@@ -60,11 +57,11 @@ void dijkstra_search(Node *source, Node *destination) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> to_visit;
   to_visit.push(source);
 
-  int step = 0;
+  //int step = 0;
 
-  while(to_visit.size() > 0 || step == finish) {
-    print_pqueue(to_visit);
-    ++step;
+  while(to_visit.size() > 0) {
+    //print_pqueue(to_visit);
+    //++step;
     // std::cout << "Current step: " << step++ << std::endl;
 
     // Take current from the top of the pqueue
@@ -107,6 +104,7 @@ void dijkstra_search(Node *source, Node *destination) {
       Edge *current_edge = current->edges[i];
       Node *next = new Node(current_edge->destination);
   
+      // Set the already visited node copy to visited
       for (size_t i = 0; i < next->edges.size(); ++i) {
         if (next->edges[i]->destination->id == current->id) {
           next->edges[i]->destination->visited = true;
@@ -132,6 +130,7 @@ void dijkstra_search(Node *source, Node *destination) {
 
 int main(int argc, char **argv) {
   int do_simple_run = 0;
+  int size = 0;
   
   if(argc > 2) {
     std::cout << "ERROR: too many args" << std::endl;
@@ -183,7 +182,7 @@ int main(int argc, char **argv) {
   }
 
   // Simple run that runs every pair of nodes with the first 3 to the last 3
-  if(do_simple_run == 1) {
+  if(do_simple_run == 1 && size > 3) {
     for(int i = 0; i < 3; ++i) {
       for(int j = size - 3; j < size; ++j) {
         dijkstra_search(nodes[i], nodes[j]); 
@@ -192,6 +191,8 @@ int main(int argc, char **argv) {
     return 0;
   }
 
+  /*
+  // Print all connections with nodes and edges
   for (size_t i = 0; i < nodes.size(); ++i) {
     Node *node = nodes[i];
     std::cout << "Node " << node->id << " is connected to:" << std::endl;
@@ -201,6 +202,7 @@ int main(int argc, char **argv) {
     }
     std::cout << std::endl;
   }
+  */
 
   int start = 0, finish = 0;
   std::cout << "This country contains " << size << " cities labeled 0-" << (size-1) << std::endl;
