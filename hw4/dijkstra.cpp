@@ -56,14 +56,14 @@ void print_pqueue(const std::priority_queue<Node *, std::vector<Node *>, Compare
   std::cout << std::endl;
 }
 
-bool dijkstra_search(Node *source, Node *destination) {
+void dijkstra_search(Node *source, Node *destination) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> to_visit;
   to_visit.push(source);
 
   int step = 0;
 
   while(to_visit.size() > 0 || step == finish) {
-    //print_pqueue(to_visit);
+    print_pqueue(to_visit);
     ++step;
     // std::cout << "Current step: " << step++ << std::endl;
 
@@ -98,7 +98,7 @@ bool dijkstra_search(Node *source, Node *destination) {
       }
       std::cout << "(" << print[print.size()-1] << ")" << std::endl;
 
-      return true;
+      return;
     }
 
     // Grab all edges that current is connected to
@@ -116,8 +116,11 @@ bool dijkstra_search(Node *source, Node *destination) {
       }
     }
   }
+  
+  std::cout << "No path found from Node (" << source->id << ") to Node (" << destination->id << ")\n";
+
   // No path was found
-  return false;
+  return;
 }
 
 int main(int argc, char **argv) {
@@ -203,8 +206,7 @@ int main(int argc, char **argv) {
   } while(start < 0 || start >= size || finish < 0 || finish >= size); 
   std::cout << "-------------------" << std::endl;
 
-  bool found = dijkstra_search(nodes[start], nodes[finish]);
-  if(!found) std::cout << "No path found from Node (" << start << ") to Node (" << finish << ")" << std::endl;
+  dijkstra_search(nodes[start], nodes[finish]);
 
   return 0;
 }
