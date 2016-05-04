@@ -23,13 +23,6 @@ struct Node {
   bool visited;
   Node *parent;
   std::vector<Edge *> edges;
-
-  Node() {}
-
-  Node(Node *&node) : id(node->id), distance(node->distance), visited(node->visited) {
-    parent = node->parent;
-    edges = node->edges;
-  }
 };
 
 struct Compare {
@@ -40,7 +33,6 @@ struct Compare {
 
 struct Edge {
   int distance;
-  Node *source;
   Node *destination;
 };
 
@@ -57,20 +49,13 @@ void dijkstra_search(Node *source, Node *destination) {
   std::priority_queue<Node *, std::vector<Node *>, Compare> to_visit;
   to_visit.push(source);
 
-  //int step = 0;
-
   while(to_visit.size() > 0) {
     //print_pqueue(to_visit);
-    //++step;
-    // std::cout << "Current step: " << step++ << std::endl;
 
     // Take current from the top of the pqueue
     Node *current = to_visit.top();
     // Remove the top from the pqueue
     to_visit.pop();
-    current->visited = true;
-
-    //std::cout << "At node " << current->id << std::endl;
 
     if (current->id == destination->id) {
       std::cout << "From Node (" << source->id << ") to Node (" <<  destination->id << ")" << std::endl;
@@ -91,40 +76,26 @@ void dijkstra_search(Node *source, Node *destination) {
 
       std::cout << "  Path: ";
       for(int i = 0; i < print.size()-1; ++i) {
-        std::cout << "(" << print[i] << ")->"; 
+        std::cout << "(" << print[i] << ")->";
       }
       std::cout << "(" << print[print.size()-1] << ")" << std::endl;
 
       return;
     }
 
-    // Grab all edges that current is connected to
-    //std::cout << "There are " << current->edges.size() << " current->edges.size()" << std::endl;
-    for (size_t i = 0; i < current->edges.size(); ++i) {
-      Edge *current_edge = current->edges[i];
-      Node *next = new Node(current_edge->destination);
-  
-      // Set the already visited node copy to visited
-      for (size_t i = 0; i < next->edges.size(); ++i) {
-        if (next->edges[i]->destination->id == current->id) {
-          next->edges[i]->destination->visited = true;
-        }
-      }
-
-      if (!next->visited) {
-        next->parent = current;
-        next->distance = current->distance + current_edge->distance;//+= current_edge->distance; next->parent = current;
-        //std::cout << "We need to travel " << current_edge->distance << " to get to " << next->id << std::endl;
-        //std::cout << "We've traveled " << current->distance << " so far" << std::endl;
-        //std::cout << "Adding node " << next->id << " is " << next->distance << " total" << std::endl;
-        to_visit.push(next);
+    for (const auto &it : current->edges) {
+      Node *dest = it->destination;
+      if (!dest->visited) {
+        dest->parent = current;
+        dest->visited = true;
+        dest->distance = current->distance + it->distance;
+        to_visit.push(dest);
       }
     }
   }
-  
-  std::cout << "No path found from Node (" << source->id << ") to Node (" << destination->id << ")\n";
 
   // No path was found
+  std::cout << "No path found from Node (" << source->id << ") to Node (" << destination->id << ")\n";
   return;
 }
 
@@ -136,20 +107,20 @@ void reset(std::vector<Node *>& nodes) {
 int main(int argc, char **argv) {
   int do_simple_run = 0;
   int size = 0;
-  
+
   if(argc > 2) {
     std::cout << "ERROR: too many args" << std::endl;
     return -1;
   }
   else if(argc == 2) {
-    do_simple_run = atoi(argv[1]); 
+    do_simple_run = atoi(argv[1]);
   }
-  
+
   std::ifstream myfile;
   myfile.open("input.inp");
-  
+
   myfile >> size;
-  
+
   std::vector<Node *> nodes;
   nodes.reserve(size);
 
@@ -179,22 +150,9 @@ int main(int argc, char **argv) {
 
         new_edge->distance = cost;
 
-        // This doesn't have edges yet
-        new_edge->source = source_copy;
         new_edge->destination = destination_copy;
       }
     }
-  }
-
-  // Simple run that runs every pair of nodes with the first 3 to the last 3
-  if(do_simple_run == 1 && size > 3) {
-    for(int i = 0; i < 3; ++i) {
-      for(int j = size - 3; j < size; ++j) {
-        dijkstra_search(nodes[i], nodes[j]);
-        reset(nodes);
-      }
-    }
-    return 0;
   }
 
   /*
@@ -210,6 +168,17 @@ int main(int argc, char **argv) {
   }
   */
 
+  // Simple run that runs every pair of nodes with the first 3 to the last 3
+  if(do_simple_run == 1 && size > 3) {
+    for(int i = 0; i < 3; ++i) {
+      for(int j = size - 3; j < size; ++j) {
+        dijkstra_search(nodes[i], nodes[j]);
+        reset(nodes);
+      }
+    }
+    return 0;
+  }
+
   int start = 0, finish = 0;
   std::cout << "This country contains " << size << " cities labeled 0-" << (size-1) << std::endl;
   do {
@@ -217,7 +186,7 @@ int main(int argc, char **argv) {
     std::cin >> start;
     std::cout << "Finishing Node: ";
     std::cin >> finish;
-  } while(start < 0 || start >= size || finish < 0 || finish >= size); 
+  } while(start < 0 || start >= size || finish < 0 || finish >= size);
   std::cout << "-------------------" << std::endl;
 
   dijkstra_search(nodes[start], nodes[finish]);
