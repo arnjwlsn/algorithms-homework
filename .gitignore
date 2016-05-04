@@ -1,6 +1,5 @@
 # Do not include
 *.out
-*.inp
 *.csv
 *.exe
 *.tsp

@@ -4,7 +4,7 @@
  * May 4, 2016
  * Email: awilson8@uccs.edu
  *
- * Assignment 4, Problem 1: Making Change
+ * Assignment 4, Problem 1, Part c: Making Change
  */
 
 #include <fstream>
