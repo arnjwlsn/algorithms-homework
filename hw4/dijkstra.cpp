@@ -106,6 +106,13 @@ void dijkstra_search(Node *source, Node *destination) {
     for (size_t i = 0; i < current->edges.size(); ++i) {
       Edge *current_edge = current->edges[i];
       Node *next = new Node(current_edge->destination);
+  
+      for (size_t i = 0; i < next->edges.size(); ++i) {
+        if (next->edges[i]->destination->id == current->id) {
+          next->edges[i]->destination->visited = true;
+        }
+      }
+
       if (!next->visited) {
         next->parent = current;
         next->distance = current->distance + current_edge->distance;//+= current_edge->distance; next->parent = current;
@@ -184,7 +191,7 @@ int main(int argc, char **argv) {
     }
     return 0;
   }
-  /*
+
   for (size_t i = 0; i < nodes.size(); ++i) {
     Node *node = nodes[i];
     std::cout << "Node " << node->id << " is connected to:" << std::endl;
@@ -194,7 +201,6 @@ int main(int argc, char **argv) {
     }
     std::cout << std::endl;
   }
-  */
 
   int start = 0, finish = 0;
   std::cout << "This country contains " << size << " cities labeled 0-" << (size-1) << std::endl;
